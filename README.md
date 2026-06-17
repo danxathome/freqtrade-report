@@ -6,7 +6,16 @@ drawdown, per-pair P&L, exit-reason breakdown and monthly returns — in one com
 Freqtrade's built-in output is just text tables. This tool gives you a good-looking,
 single-file report you can open in any browser or send to someone.
 
-![Report preview](docs/preview.png)
+
+**The full report at a glance:**
+
+![Full report](docs/full_report.png)
+
+
+**Entry/exit signals per pair (good & bad trades):**
+
+![Entry/exit preview](docs/preview.png)
+
 
 > Or open the included [`example_report.html`](example_report.html) live in your browser.
 
