@@ -1,0 +1,4 @@
+pandas
+numpy
+matplotlib
+# freqtrade muss importierbar sein (in deiner Freqtrade-Umgebung ausfuehren)
