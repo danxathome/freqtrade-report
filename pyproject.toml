@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "freqtrade-report"
+version = "0.1.0"
+description = "Nice HTML reports, backtest comparison, pairlist analysis and config checks for Freqtrade."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "Daniel" }]
+keywords = ["freqtrade", "backtest", "report", "crypto", "trading"]
+dependencies = ["pandas", "numpy", "matplotlib"]
+# Hinweis: freqtrade selbst muss separat installiert sein (du nutzt es ja bereits).
+
+[project.urls]
+Homepage = "https://github.com/DEINNAME/freqtrade-report"
+
+[project.scripts]
+ft-report = "ft_report:main"
+ft-compare = "ft_compare:main"
+ft-pairlist = "ft_pairlist:main"
+ft-configcheck = "ft_configcheck:main"
+
+[tool.setuptools]
+py-modules = ["ft_report", "ft_compare", "ft_pairlist", "ft_configcheck"]

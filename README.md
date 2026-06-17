@@ -1,53 +1,62 @@
 # freqtrade-report
 
-Turn a Freqtrade backtest result into a clean, shareable **HTML report** — equity curve,
-drawdown, per-pair P&L, exit-reason breakdown and monthly returns — in one command.
-
-Freqtrade's built-in output is just text tables. This tool gives you a good-looking,
-single-file report you can open in any browser or send to someone.
-
-
-**The full report at a glance:**
-
-![Full report](docs/full_report.png)
-
+A small **toolkit for Freqtrade** users: turn backtests into clean HTML reports, compare
+strategies side by side, analyse your pairs, and sanity-check your config — each as a simple
+command.
 
 **Entry/exit signals per pair (good & bad trades):**
 
 ![Entry/exit preview](docs/preview.png)
 
+**The full report at a glance:**
+
+![Full report](docs/full_report.png)
 
 > Or open the included [`example_report.html`](example_report.html) live in your browser.
+
+## The tools
+
+| Command | What it does |
+|---|---|
+| `ft-report` | Backtest → good-looking single-file HTML report (equity, drawdown, per-pair P&L, exit reasons, monthly returns, **entry/exit charts**). |
+| `ft-compare` | Put **2+ backtests side by side** — overlaid equity/drawdown + a KPI comparison table. |
+| `ft-pairlist` | Rank your pairs by volume, volatility, data coverage and price-jumps — helps build a good static pairlist. |
+| `ft-configcheck` | Check a `config.json` for common mistakes (live-mode, empty whitelist, exposed API keys, …). |
 
 ## Install
 
 ```bash
-pip install pandas numpy matplotlib
-# freqtrade must be importable (run inside your freqtrade environment)
+# inside your freqtrade environment (so freqtrade itself is importable):
+pip install .
 ```
+
+This gives you the four commands above. (You can also just run the scripts directly without
+installing, e.g. `python ft_report.py ...`.)
+
+Requirements: Python 3.9+, `pandas`, `numpy`, `matplotlib`, and a working **freqtrade** install.
 
 ## Usage
 
 ```bash
-python freqtrade_report.py path/to/backtest-result.zip -o report.html
+# 1) Report from a backtest result
+ft-report path/to/backtest-result.zip -o report.html
+
+# 2) Compare strategies
+ft-compare A.zip B.zip --labels "Strategy A,Strategy B" -o compare.html
+
+# 3) Analyse pairs (build a pairlist)
+ft-pairlist --timeframe 1d --top 30 -o pairlist.csv
+
+# 4) Check a config
+ft-configcheck user_data/config.json
 ```
 
-- `source` — your Freqtrade backtest result file (`.zip` or `.json`, from `--export trades`)
-- `-o, --output` — output HTML file (default: `freqtrade_report.html`)
-- `--datadir` — Freqtrade data folder for the price charts (default: `user_data/data`)
-- `--exchange` — exchange subfolder inside datadir (default: `binance`)
-- `--timeframe` — candle timeframe for the charts (default: taken from the backtest)
-- `--pairs` — how many good AND bad pairs to chart (default: `2`, i.e. 2 best + 2 worst)
+**Where are the output files saved?** In the folder you run the command from (your current
+working directory) unless you give a full path, e.g. `-o ~/Desktop/report.html`.
+Open the generated HTML in any browser. Everything (charts included) is embedded — nothing to host.
 
-**Where is the report saved?** In the folder you run the command from (your current
-working directory). With `-o report.html` (no path) it lands right there — e.g. if you run
-it from your `freqtrade` folder, the file is `freqtrade/report.html`. To save it somewhere
-specific, give a full path, e.g. `-o ~/Desktop/report.html`.
-
-Then just open the HTML file in your browser (double-click, or `open report.html` on macOS).
-Everything (charts included) is embedded in the single file — nothing else to host.
-
-An example output is included: [`example_report.html`](example_report.html).
+`ft-report` options: `--datadir` (default `user_data/data`), `--exchange` (default `binance`),
+`--timeframe` (default: from the backtest), `--pairs` (how many good AND bad pairs to chart, default 2).
 
 ## What's in the report
 
@@ -57,17 +66,11 @@ An example output is included: [`example_report.html`](example_report.html).
 - **Exit-reason breakdown** (count, sum, mean %)
 - **Monthly returns**
 - **Trade examples:** price charts of the best- and worst-performing pairs with entry/exit
-  markers (green ▲ entry, blue ● winning exit, red ✕ losing exit) — see at a glance where
-  the strategy works and where it doesn't. (Needs the candle data in `--datadir`.)
-
-## Requirements
-
-Python 3.9+, `pandas`, `numpy`, `matplotlib`, and a working `freqtrade` install
-(the tool uses `freqtrade.data.btanalysis` to read the result).
+  markers (green ▲ entry, blue ● winning exit, red ✕ losing exit). (Needs the candle data in `--datadir`.)
 
 ## Support / Donate
 
-This tool is free. If it saves you time, a small tip is hugely appreciated 🙏
+This toolkit is free. If it saves you time, a small tip is hugely appreciated 🙏
 
 - ₿ **USDC (BEP20 / BSC network):** `0x5906b08f245d82f28f44192549bdbfb8370c948d`
   *(please send only on the BEP20/BSC network)*
